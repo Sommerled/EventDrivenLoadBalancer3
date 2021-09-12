@@ -67,10 +67,10 @@ public class ServerMain {
 				}
 				
 				ConfigLoader.setConfig(config);
-				
-				Server server = initializeServer();
-				server.startServices();
 			}
+			
+			Server server = initializeServer();
+			server.startServices();
 			
 		}else{
 			throw new RuntimeException("Must include the path to an existing config file or config file that you want"
@@ -112,7 +112,7 @@ public class ServerMain {
 				slash = "/";
 			}
 			
-			configFile = new File(fileName + slash + "config.cfg");
+			configFile = new File(fileName + slash + "config.json");
 		}
 		
 		FileWriter fw = new FileWriter(configFile);
