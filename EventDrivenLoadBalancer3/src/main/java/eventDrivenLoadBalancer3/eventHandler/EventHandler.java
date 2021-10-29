@@ -5,7 +5,7 @@ import java.util.concurrent.BlockingQueue;
 import eventDrivenLoadBalancer3.events.AbstractEvent;
 
 /**
- * This object stores events in a <LinkedBlockingQueue> 
+ * This object stores events in a {@link LinkedBlockingQueue} 
  * until they are removed by services that are listening 
  * for events. I used an IOC philosophy on this to make
  * it easier to test.

@@ -17,6 +17,7 @@ import eventDrivenLoadBalancer3.Balancer.Balancer_Algorithm;
 import eventDrivenLoadBalancer3.Balancer.RoundRobinBalancer;
 import eventDrivenLoadBalancer3.eventHandler.EventHandler;
 import eventDrivenLoadBalancer3.events.AbstractEvent;
+import eventDrivenLoadBalancer3.socketService.SocketService;
 
 public class ServerMain {
 
@@ -105,6 +106,9 @@ public class ServerMain {
 		balancer.setEventDispatcher(eventHandler);
 		balancer.setEventListener(eventHandler);
 		server.setBalancer(balancer);
+		
+		SocketService socketService = new SocketService();
+		server.setSocketService(socketService);
 		
 		return server;
 	}

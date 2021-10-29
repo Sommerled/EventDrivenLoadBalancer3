@@ -6,10 +6,12 @@ import eventDrivenLoadBalancer3.Balancer.AbstractBalancer;
 import eventDrivenLoadBalancer3.eventHandler.EventHandler;
 import eventDrivenLoadBalancer3.events.ConfigEvent;
 import eventDrivenLoadBalancer3.events.EventType;
+import eventDrivenLoadBalancer3.socketService.SocketService;
 
 public class Server {
 	private EventHandler eventHandler = null;
 	private AbstractBalancer balancer = null;
+	private SocketService socketService = null;
 	private Config config = null;
 	
 	public Server() {
@@ -32,6 +34,10 @@ public class Server {
 		Thread balancerThread = new Thread(this.balancer);
 		balancerThread.setName("Balancing Act");
 		balancerThread.start();
+		
+		Thread socketServiceThread = new Thread(this.socketService);
+		socketServiceThread.setName("Socket Service");
+		socketServiceThread.start();
 		
 		List<Config> children = this.config.getChildConfig();
 		
@@ -65,5 +71,13 @@ public class Server {
 
 	public void setConfig(Config config) {
 		this.config = config;
+	}
+
+	public SocketService getSocketService() {
+		return socketService;
+	}
+
+	public void setSocketService(SocketService socketService) {
+		this.socketService = socketService;
 	}
 }

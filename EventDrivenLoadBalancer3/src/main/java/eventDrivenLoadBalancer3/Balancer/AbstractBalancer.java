@@ -3,6 +3,8 @@ package eventDrivenLoadBalancer3.Balancer;
 import eventDrivenLoadBalancer3.events.AbstractEvent;
 import eventDrivenLoadBalancer3.events.ConfigEvent;
 import eventDrivenLoadBalancer3.events.EventType;
+import eventDrivenLoadBalancer3.events.SocketConfigEvent;
+import eventDrivenLoadBalancer3.events.SocketEvent;
 import eventDrivenLoadBalancer3.server.Config;
 import eventDrivenLoadBalancer3.server.Service;
 
@@ -44,7 +46,11 @@ public abstract class AbstractBalancer extends Service implements Balancer {
 						break;
 					case BALANCE_REQUEST:
 						this.getEventListener().remove(ae);
+						SocketEvent se = (SocketEvent) ae;
+						Config next = this.nextConfig();
 						
+						SocketConfigEvent sce = new SocketConfigEvent(this, EventType.NEW_CLIENT_SOCKET_SERVICE, se.getSocket(), next);
+						this.getEventDispatcher().put(sce);
 						break;
 					case SHUTDOWN:
 						
@@ -54,6 +60,7 @@ public abstract class AbstractBalancer extends Service implements Balancer {
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		}
 	}
