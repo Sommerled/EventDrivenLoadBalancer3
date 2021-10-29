@@ -2,15 +2,25 @@ package eventDrivenLoadBalancer3.server;
 
 import java.util.List;
 
+import eventDrivenLoadBalancer3.Balancer.Balancer_Algorithm;
+
 public class Config {
 	private Integer timeout = 0;
 	private String host;
 	private Integer port;
 	private Integer restPort;
-	private String algorithm;
+	private Balancer_Algorithm algorithm;
 	private String protocol;
+	
+	/*
+	 * Whether or not the config is listening
+	 * for new socket connections to load balance
+	 * between the child configs. 
+	 */
 	private boolean listening;
-	private ConfigLoader listensFor;
+	
+	
+	private ConfigLoader listensFor; 
 	private String keystorePath = "";
 	private String keystorePassword = "";
 	private String keystoreType = "";
@@ -46,11 +56,11 @@ public class Config {
 		this.port = port;
 	}
 
-	public String getAlgorithm() {
+	public Balancer_Algorithm getAlgorithm() {
 		return algorithm;
 	}
 
-	public void setAlgorithm(String algorithm) {
+	public void setAlgorithm(Balancer_Algorithm algorithm) {
 		this.algorithm = algorithm;
 	}
 
@@ -134,5 +144,34 @@ public class Config {
 		this.childConfig = childConfig;
 	}
 	
+	/**
+	 * compares two {@link Config}'s to see if the
+	 * hosts and ports are the same.
+	 * 
+	 * @param c config to compare
+	 * @return
+	 */
+	public boolean sameConnection(Config c) {
+		return c.getHost().equals(this.getHost()) && c.getPort().equals(this.getPort());
+	}
 	
+	@Override
+	public boolean equals(Object o) {
+		boolean ret = false;
+		
+		if(o instanceof Config) {
+			Config c = (Config) o;
+			
+			ret = this.sameConnection(c);
+			ret = ret && (this.listening == c.isListening());
+			ret = ret && this.algorithm.equals(c.getAlgorithm()) && this.keyAlgorithm.equals(c.getKeyAlgorithm());
+			ret = ret && this.keystoreType.equals(c.getKeystoreType()) && this.getKeystorePassword().equals(c.getKeystorePassword());
+			ret = ret && this.keystorePath.equals(c.getKeystorePath()) && (this.ballances == c.getBallances());
+			ret = ret && this.protocol.equals(c.getProtocol()) && this.restPort.equals(c.getRestPort());
+			ret = ret && this.timeout.equals(c.getTimeout());
+		}
+		
+		return ret;
+	}
+
 }

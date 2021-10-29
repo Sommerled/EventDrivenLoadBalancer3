@@ -12,6 +12,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import eventDrivenLoadBalancer3.Balancer.AbstractBalancer;
+import eventDrivenLoadBalancer3.Balancer.Balancer_Algorithm;
+import eventDrivenLoadBalancer3.Balancer.RoundRobinBalancer;
 import eventDrivenLoadBalancer3.eventHandler.EventHandler;
 import eventDrivenLoadBalancer3.events.AbstractEvent;
 
@@ -26,9 +29,10 @@ public class ServerMain {
 	 * Ex. Java -jar EventDrivenLoadBalancer3.jar config.json keyStore.key
 	 * 
 	 * @param args
+	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	public static void main(String[] args){
+	public static void main(String[] args) throws InterruptedException{
 		String keystore = null;
 		if(args.length >= 1) {
 			
@@ -69,7 +73,7 @@ public class ServerMain {
 				ConfigLoader.setConfig(config);
 			}
 			
-			Server server = initializeServer();
+			Server server = initializeServer(ConfigLoader.config());
 			server.startServices();
 			
 		}else{
@@ -78,14 +82,29 @@ public class ServerMain {
 		}
 	}
 	
-	private static Server initializeServer() {
+	private static Server initializeServer(Config config) {
 		Server server = new Server();
 		EventHandler eventHandler = new EventHandler();
+		AbstractBalancer balancer = null;
+		
+		server.setConfig(config);
 		
 		BlockingQueue<AbstractEvent> eventQueue = new LinkedBlockingQueue<AbstractEvent>();
 		eventHandler.setEventQueue(eventQueue);
-		
 		server.setEventHandler(eventHandler);
+		
+		switch(config.getAlgorithm()) {
+		case ROUND_ROBIN:
+			balancer= new RoundRobinBalancer();
+			break;
+		default:
+			balancer= new RoundRobinBalancer();
+			break;
+		}
+		
+		balancer.setEventDispatcher(eventHandler);
+		balancer.setEventListener(eventHandler);
+		server.setBalancer(balancer);
 		
 		return server;
 	}
@@ -95,7 +114,8 @@ public class ServerMain {
 		config.setHost("127.0.0.1");
 		config.setPort(8080);
 		config.setProtocol("HTTP");
-		config.setRestPort(8081);
+		config.setAlgorithm(Balancer_Algorithm.ROUND_ROBIN);
+		config.setListening(true);
 		
 		return config;
 	}
