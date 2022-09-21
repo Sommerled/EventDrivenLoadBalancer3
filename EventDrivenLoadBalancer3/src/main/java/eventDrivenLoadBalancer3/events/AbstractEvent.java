@@ -13,10 +13,12 @@ package eventDrivenLoadBalancer3.events;
 public abstract class AbstractEvent {
 	private final Object originator;
 	private final EventType et;
+	private final AbstractEvent nextEvent;
 
-	public AbstractEvent(Object originator, EventType et) {
+	public AbstractEvent(Object originator, EventType et, AbstractEvent nextEvent) {
 		this.originator = originator;
 		this.et = et;
+		this.nextEvent = nextEvent;
 	}
 	
 	public Object getOriginator() {
@@ -25,5 +27,9 @@ public abstract class AbstractEvent {
 	
 	public EventType getEventType() {
 		return this.et;
+	}
+
+	public AbstractEvent getNextEvent() {
+		return nextEvent;
 	}
 }

@@ -10,8 +10,8 @@ package eventDrivenLoadBalancer3.events;
 public class StringEvent extends AbstractEvent{
 	private final String msg;
 	
-	public StringEvent(Object originator, EventType et, String msg) {
-		super(originator, et);
+	public StringEvent(Object originator, EventType et, AbstractEvent nextEvent, String msg) {
+		super(originator, et, nextEvent);
 		this.msg = msg;
 	}
 

@@ -37,7 +37,7 @@ public abstract class AbstractBalancer extends Service implements Balancer {
 						 * else add to list of configs that need to be load balanced
 						 */
 						if(ce.getConfig().isListening()) {
-							ConfigEvent createWorker = new ConfigEvent(this, EventType.NEW_SERVER_SOCKET_SERVICE, ce.getConfig());
+							ConfigEvent createWorker = new ConfigEvent(this, EventType.NEW_SERVER_SOCKET_SERVICE, null, ce.getConfig());
 							this.getEventDispatcher().put(createWorker);
 						}else {
 							this.registerConfig(ce.getConfig());
@@ -49,7 +49,7 @@ public abstract class AbstractBalancer extends Service implements Balancer {
 						SocketEvent se = (SocketEvent) ae;
 						Config next = this.nextConfig();
 						
-						SocketConfigEvent sce = new SocketConfigEvent(this, EventType.NEW_CLIENT_SOCKET_SERVICE, se.getSocket(), next);
+						SocketConfigEvent sce = new SocketConfigEvent(this, EventType.NEW_CLIENT_SOCKET_SERVICE, null, se.getSocket(), next);
 						this.getEventDispatcher().put(sce);
 						break;
 					case SHUTDOWN:

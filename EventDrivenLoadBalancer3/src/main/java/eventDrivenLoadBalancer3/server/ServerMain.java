@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -108,6 +110,8 @@ public class ServerMain {
 		server.setBalancer(balancer);
 		
 		SocketService socketService = new SocketService();
+		socketService.setSockets(new HashMap<Integer, Boolean>());
+		socketService.setServerSocketTimeout(60000);
 		server.setSocketService(socketService);
 		
 		return server;

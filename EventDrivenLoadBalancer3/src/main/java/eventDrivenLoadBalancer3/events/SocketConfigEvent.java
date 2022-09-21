@@ -8,8 +8,8 @@ public class SocketConfigEvent  extends AbstractEvent{
 	private final Socket socket;
 	private final Config config;
 
-	public SocketConfigEvent(Object originator, EventType et, Socket socket, Config config) {
-		super(originator, et);
+	public SocketConfigEvent(Object originator, EventType et, AbstractEvent nextEvent, Socket socket, Config config) {
+		super(originator, et, nextEvent);
 		this.socket = socket;
 		this.config = config;
 	}

@@ -20,9 +20,9 @@ class EventHandlerTests {
 		BlockingQueue<AbstractEvent> eventQueue = new LinkedBlockingQueue<AbstractEvent>();
 		EventHandler eh = new EventHandler();
 		
-		eventQueue.add(new StringEvent(this, null, null));
-		eventQueue.add(new StringEvent(this, null, null));
-		eventQueue.add(new StringEvent(this, null, null));
+		eventQueue.add(new StringEvent(this, null, null, null));
+		eventQueue.add(new StringEvent(this, null, null, null));
+		eventQueue.add(new StringEvent(this, null, null, null));
 		
 		eh.setEventQueue(eventQueue);
 		
@@ -47,7 +47,7 @@ class EventHandlerTests {
 
 		eh.setEventQueue(eventQueue);
 		
-		eh.put(new StringEvent(this, null, "hello world"));
+		eh.put(new StringEvent(this, null, null, "hello world"));
 		assertEquals(eh.size(), 1);
 		
 		AbstractEvent ae = eh.peek();
@@ -62,7 +62,7 @@ class EventHandlerTests {
 		EventHandler eh = new EventHandler();
 		
 		RuntimeException e = assertThrows(RuntimeException.class, ()->{
-			eh.put(new StringEvent(this, null, "hello world"));
+			eh.put(new StringEvent(this, null, null, "hello world"));
 		});
 	}
 	
@@ -72,7 +72,7 @@ class EventHandlerTests {
 		EventHandler eh = new EventHandler();
 
 		eh.setEventQueue(eventQueue);
-		StringEvent se = new StringEvent(this, null, "hello world");
+		StringEvent se = new StringEvent(this, null, null, "hello world");
 		eh.put(se);
 		
 		assertTrue(eh.remove(se));
@@ -84,7 +84,7 @@ class EventHandlerTests {
 		EventHandler eh = new EventHandler();
 		
 		eh.setEventQueue(eventQueue);
-		StringEvent se = new StringEvent(this, null, "hello world");
+		StringEvent se = new StringEvent(this, null, null, "hello world");
 		
 		assertFalse(eh.remove(se));
 	}
@@ -92,7 +92,7 @@ class EventHandlerTests {
 	@Test
 	public void remove1FailException() {
 		EventHandler eh = new EventHandler();
-		StringEvent se = new StringEvent(this, null, "hello world");
+		StringEvent se = new StringEvent(this, null, null, "hello world");
 		
 		RuntimeException e = assertThrows(RuntimeException.class, ()->{
 			eh.remove(se);

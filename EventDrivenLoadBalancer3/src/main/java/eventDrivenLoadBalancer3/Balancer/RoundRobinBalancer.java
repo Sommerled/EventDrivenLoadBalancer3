@@ -45,6 +45,8 @@ public class RoundRobinBalancer extends AbstractBalancer {
 				/*
 				 * configs are the same, but may have different 
 				 * encryption algorithms or something else.
+				 * If so remove existing config so that it
+				 * can be replaced. 
 				 */
 				if(!config.equals(c)) {
 					this.configList.remove(config);

@@ -168,7 +168,7 @@ public class Config {
 			ret = ret && this.keystoreType.equals(c.getKeystoreType()) && this.getKeystorePassword().equals(c.getKeystorePassword());
 			ret = ret && this.keystorePath.equals(c.getKeystorePath()) && (this.ballances == c.getBallances());
 			ret = ret && this.protocol.equals(c.getProtocol()) && this.restPort.equals(c.getRestPort());
-			ret = ret && this.timeout.equals(c.getTimeout());
+			ret = ret && this.getHost().equals(c.getHost())&& this.timeout.equals(c.getTimeout());
 		}
 		
 		return ret;

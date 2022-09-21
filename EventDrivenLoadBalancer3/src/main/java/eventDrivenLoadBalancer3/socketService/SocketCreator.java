@@ -14,7 +14,7 @@ public class SocketCreator {
 		if(config.getProtocol() == null || !config.getProtocol().equals("HTTPS")) {
 			client = new Socket(config.getHost(), config.getPort());
 		}else {
-			
+			//https connection
 		}
 		
 		return client;
@@ -26,7 +26,7 @@ public class SocketCreator {
 		if(config.getProtocol() == null || !config.getProtocol().equals("HTTPS")) {
 			client = new ServerSocket(config.getPort());
 		}else {
-			
+			//https connection
 		}
 		
 		return client;

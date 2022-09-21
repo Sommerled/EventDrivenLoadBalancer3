@@ -45,7 +45,7 @@ public class Server {
 		 * Tell the Balancing Act Thread about the socket on which
 		 * to listen for new connections to the load balancer
 		 */
-		ConfigEvent listeningConfig = new ConfigEvent(this, EventType.NEW_CONNECTION, config);
+		ConfigEvent listeningConfig = new ConfigEvent(this, EventType.NEW_CONNECTION, null, config);
 		this.eventHandler.put(listeningConfig);
 	}
 
